@@ -222,31 +222,35 @@ function! UVMTop(name)
 endfunction
 command -nargs=1 -complete=file UVMTop call UVMTop("<args>")
 
+" According to the args, call different methods
+"
 function UVMGen(type, name)
-    if (a:type== "help")
-        echo "Currently available templates:"
-        echo " c                - Plain C Template"
-        echo " make             - Makefile Template"
-        echo " make-simple      - Simple Variant of the Makefile Template"
+    if (a:type== "agent")
+        call UVMAgent(a:name)
+    elseif (a:type== "driver")
+        call UVMDriver(a:name)
+    elseif (a:type== "env")
+        call UVMEnv(a:name)
+    elseif (a:type== "monitor") || (a:type == "mon")
+        call UVMMon(a:name)
+    elseif (a:type== "sequence") || (a:type == "seq")
+        call UVMSeq(a:name)
+    elseif (a:type== "test")
+        call UVMTest(a:name)
+    elseif (a:type== "top")
+        call UVMTop(a:name)
+    elseif (a:type== "transaction") || (a:type == "tr")
+        call UVMTr(a:name)
     else
-        "
-        if (a:type== "agent")
-            call UVMAgent(a:name)
-        elseif (a:type== "driver")
-            call UVMDriver(a:name)
-        elseif (a:type== "env")
-            call UVMEnv(a:name)
-        elseif (a:type== "monitor")
-            call UVMMon(a:name)
-        elseif (a:type== "sequence")
-            call UVMSeq(a:name)
-        elseif (a:type== "test")
-            call UVMTest(a:name)
-        elseif (a:type== "top")
-            call UVMTop(a:name)
-        elseif (a:type== "transaction")
-            call UVMTr(a:name)
-        endif
+        echo "The first ARG, Please following the instructions:"
+        echo " agent            - Generate UVM Agent"
+        echo " driver           - Generate UVM Driver"
+        echo " env              - Generate UVM Env"
+        echo " monitor / mon    - Generate UVM Monitor"
+        echo " sequence / seq   - Generate UVM Sequence"
+        echo " test             - Generate UVM Test"
+        echo " top              - Generate UVM Top"
+        echo " transaction / tr - Generate UVM Sequence Item"
     endif
 endf
 command -nargs=+ UVMGen call UVMGen(<f-args>)
