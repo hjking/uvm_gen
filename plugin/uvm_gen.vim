@@ -21,7 +21,7 @@ endif
 if exists("g:uvm_email")
     let s:uvm_email      = g:uvm_email
 else
-    let s:uvm_email      = s:uvm_author . "@Fiberhome.com.cn"
+    let s:uvm_email      = s:uvm_author . "@gmail.com"
 endif
 if exists("g:uvm_company")
     let s:uvm_company    = g:uvm_company
@@ -132,7 +132,6 @@ function s:UVMAddHeader()
     " call <SID>TPutCursor()
     echo "Successfully added the header!"
 endfunction
-command! -nargs=0 UVMAddHeader :call s:UVMAddHeader()
 
 function! UVMEnv(name)
     let a:template_filename = "uvm_env.sv"
@@ -143,7 +142,6 @@ function! UVMEnv(name)
     call <SID>TExpand("NAME", a:name)
     call <SID>TPutCursor()
 endfunction
-command -nargs=1 -complete=file UVMEnv call UVMEnv("<args>")
 
 function! UVMTest(name)
     let a:template_filename = "uvm_test.sv"
@@ -154,7 +152,6 @@ function! UVMTest(name)
     call <SID>TExpand("NAME", a:name)
     call <SID>TPutCursor()
 endfunction
-command -nargs=1 -complete=file UVMTest call UVMTest("<args>")
 
 function! UVMAgent(name)
     let a:template_filename = "uvm_agent.sv"
@@ -165,7 +162,6 @@ function! UVMAgent(name)
     call <SID>TExpand("NAME", a:name)
     call <SID>TPutCursor()
 endfunction
-command -nargs=1 -complete=file UVMAgent call UVMAgent("<args>")
 
 function! UVMDriver(name)
     let a:template_filename = "uvm_driver.sv"
@@ -176,7 +172,6 @@ function! UVMDriver(name)
     call <SID>TExpand("NAME", a:name)
     call <SID>TPutCursor()
 endfunction
-command -nargs=1 -complete=file UVMDriver call UVMDriver("<args>")
 
 function! UVMMon(name)
     let a:template_filename = "uvm_monitor.sv"
@@ -187,7 +182,6 @@ function! UVMMon(name)
     call <SID>TExpand("NAME", a:name)
     call <SID>TPutCursor()
 endfunction
-command -nargs=1 -complete=file UVMMon call UVMMon("<args>")
 
 function! UVMSeq(name)
     let a:template_filename = "uvm_sequence.sv"
@@ -198,7 +192,6 @@ function! UVMSeq(name)
     call <SID>TExpand("NAME", a:name)
     call <SID>TPutCursor()
 endfunction
-command -nargs=1 -complete=file UVMSeq call UVMSeq("<args>")
 
 function! UVMTr(name)
     let a:template_filename = "uvm_transaction.sv"
@@ -209,7 +202,6 @@ function! UVMTr(name)
     call <SID>TExpand("NAME", a:name)
     call <SID>TPutCursor()
 endfunction
-command -nargs=1 -complete=file UVMTr call UVMTr("<args>")
 
 function! UVMTop(name)
     let a:template_filename = "uvm_test_top.sv"
@@ -220,7 +212,6 @@ function! UVMTop(name)
     call <SID>TExpand("NAME", a:name)
     call <SID>TPutCursor()
 endfunction
-command -nargs=1 -complete=file UVMTop call UVMTop("<args>")
 
 " According to the args, call different methods
 "
@@ -253,4 +244,14 @@ function UVMGen(type, name)
         echo " transaction / tr - Generate UVM Sequence Item"
     endif
 endf
+
+command! -nargs=0 UVMAddHeader call s:UVMAddHeader()
+command -nargs=1 -complete=file UVMEnv call UVMEnv("<args>")
+command -nargs=1 -complete=file UVMTest call UVMTest("<args>")
+command -nargs=1 -complete=file UVMAgent call UVMAgent("<args>")
+command -nargs=1 -complete=file UVMDriver call UVMDriver("<args>")
+command -nargs=1 -complete=file UVMMon call UVMMon("<args>")
+command -nargs=1 -complete=file UVMSeq call UVMSeq("<args>")
+command -nargs=1 -complete=file UVMTr call UVMTr("<args>")
+command -nargs=1 -complete=file UVMTop call UVMTop("<args>")
 command -nargs=+ UVMGen call UVMGen(<f-args>)
