@@ -4,7 +4,7 @@
 class {:NAME:} extends {:PARENT:};
     `uvm_component_utils({:NAME:})
     {:ENV_NAME:}_env m_env;
-    extern function new (string _name="", uvm_component parent);
+    extern function new (string name, uvm_component parent);
     extern function void build_phase(uvm_phase phase);
     extern function void end_of_elaboration_phase(uvm_phase phase);
     extern task run_phase(uvm_phase phase);
@@ -14,7 +14,7 @@ endclass: {:NAME:}
 //==============================================================================
 // Implementation
 //------------------------------------------------------------------------------
-function {:NAME:}::new(string name="", uvm_component parent);
+function {:NAME:}::new(string name, uvm_component parent);
     super.new(name, parent);
     `uvm_info("debug", "{:NAME:}::new", UVM_MEDIUM)
 endfunction: new

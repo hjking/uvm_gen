@@ -224,6 +224,10 @@ endfunction
 " According to the args, call different methods
 "
 function UVMGen(type, name)
+" function UVMGen(...)
+"     let a:args_num = a:0
+"     let a:type = a:1
+"     let a:name = a:2
     if (a:type== "agent")
         call UVMAgent(a:name)
     elseif (a:type== "driver")
