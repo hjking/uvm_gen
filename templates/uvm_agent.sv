@@ -39,7 +39,17 @@ function {:NAME:}_agent::new(string name = "{:NAME:}_agent", uvm_component paren
     super.new(name, parent);
 endfunction: new
 
-function void {:NAME:}_agent::build_phase( uvm_phase phase );
+//------------------------------------------------------------------------------
+// Report configuration
+//
+function {:NAME:}_agent::start_of_simulation_phase(uvm_phase phase);
+endfunction
+
+//------------------------------------------------------------------------------
+// Construct sub-components
+// retrieve and set sub-component configuration
+//
+function void {:NAME:}_agent::build_phase(uvm_phase phase);
     super.build_phase(phase);
     if( !uvm_config_db #( {:CONFIG:} )::get(this,"{:CONFIG:}",m_cfg) ) begin
         `uvm_error({MSGID,"Failed to get agent's config object: {:CONFIG:}")
@@ -58,7 +68,10 @@ function void {:NAME:}_agent::build_phase( uvm_phase phase );
     {:endif:ADD_COVERAGE:}
 endfunction: build_phase
 
-function void {:NAME:}_agent::connect_phase( uvm_phase phase );
+//------------------------------------------------------------------------------
+// Connect sub-components
+//
+function void {:NAME:}_agent::connect_phase(uvm_phase phase);
     m_monitor.{:NAME:}_vif = m_cfg.{:NAME:}_vif;
     analysis_port = new("analysis_port", this);
     // Only connect the driver and the sequencer if active

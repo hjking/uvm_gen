@@ -149,7 +149,15 @@ function! UVMTest(name)
 
     call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
-    call <SID>TExpand("NAME", a:name)
+    if (a:name == "base")
+        let a:name_temp = "test_" . a:name
+        let a:parent_name = "uvm_test"
+    else
+        let a:name_temp = a:name . "_test"
+        let a:parent_name = "test_base"
+    endif
+    call <SID>TExpand("NAME", a:name_temp)
+    call <SID>TExpand("PARENT", a:parent_name)
     call <SID>TPutCursor()
 endfunction
 

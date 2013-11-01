@@ -11,6 +11,7 @@ class {:NAME:}_monitor extends uvm_monitor;
     // Methods
     extern function new(string name="{:NAME:}_monitor", uvm_component parent=null);
     extern task run_phase(uvm_phase phase);
+    extern function start_of_simulation_phase(uvm_phase phase);
 endclass : {:NAME:}_monitor
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -32,3 +33,11 @@ task {:NAME:}_monitor::run_phase(uvm_phase phase);
         phase.drop_objection();
     end
 endtask: run_phase
+
+//------------------------------------------------------------------------------
+// Print configuration
+//
+function {:NAME:}_monitor::start_of_simulation_phase(uvm_phase phase);
+endfunction
+
+`endif

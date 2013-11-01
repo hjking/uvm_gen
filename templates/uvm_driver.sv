@@ -11,7 +11,9 @@ class {:NAME:}_driver extends uvm_driver #({:SEQ_ITEM:});
     // Methods
     extern function new(string name="{:NAME:}_driver", uvm_component parent=null);
     extern virtual task drive_{:NAME:}
+    extern function start_of_simulation_phase(uvm_phase phase);
     extern task run_phase(uvm_phase phase);
+    extern function phase_ended(uvm_phase phase);
 endclass : {:NAME:}_driver
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -25,6 +27,15 @@ virtual {:NAME:}_driver::task drive_{:NAME:}({:TYPE:} _{:ARG:});
     {:BFM_CODE_HERE:}
 endtask: drive_{:NAME:}
 
+//------------------------------------------------------------------------------
+// Print configuration
+//
+function {:NAME:}_driver::start_of_simulation_phase(uvm_phase phase);
+endfunction
+
+//------------------------------------------------------------------------------
+// Get and process items
+//
 task {:NAME:}_driver::run_phase(uvm_phase phase);
     {:INIT_HARDWARE:}
     forever begin
@@ -41,5 +52,11 @@ task {:NAME:}_driver::run_phase(uvm_phase phase);
         phase.drop_objection();
     end
 endtask: run_phase
+
+//------------------------------------------------------------------------------
+// Jump Back
+//
+function {:NAME:}_driver::phase_ended(uvm_phase phase);
+endfunction
 
 `endif
