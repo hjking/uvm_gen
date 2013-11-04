@@ -1,9 +1,18 @@
-class {:NAME:}_agent extends uvm_component;
+`ifndef {:NAME:}_AGENT_SV
+`define {:NAME:}_AGENT_SV
+
+//------------------------------------------------------------------------------
+//
+// CLASS: {:NAME:}_agent
+//
+//------------------------------------------------------------------------------
+
+class {:NAME:}_agent extends uvm_agent;
 
     // Data attributes
     {:CONFIG:} m_cfg; //< fetched from config DB as "{:CONFIG:}"
     bit coverage_enable = 1;
-    bit check_enable = 1;
+    bit checks_enable = 1;
     `uvm_component_utils_begin({:NAME:}_agent)
         `uvm_field_int(checks_enable, UVM_ALL_ON)
         `uvm_field_int(coverage_enable, UVM_ALL_ON)
@@ -15,7 +24,7 @@ class {:NAME:}_agent extends uvm_component;
     {:if:NO_TYPEDEF:}
     uvm_analysis_port #({:TRANSACTION:}) analysis_port;
     {:endif:NO_TYPEDEF:}
-    {:NAME:}_monitor          m_monitor;
+    {:NAME:}_monitor     m_monitor;
     {:SEQUENCER:}        m_sequencer;
     {:DRIVER:}           m_driver;
     {:if:ADD_COVERAGE:}
@@ -85,3 +94,5 @@ function void {:NAME:}_agent::connect_phase(uvm_phase phase);
     end
     {:endif:ADD_COVERAGE:}
 endfunction :connect_phase
+
+`endif

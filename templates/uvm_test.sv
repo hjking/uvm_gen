@@ -1,3 +1,6 @@
+`ifndef {:NAME:}_SV
+`define {:NAME:}_SV
+
 //==============================================================================
 // Declaration
 //------------------------------------------------------------------------------
@@ -47,3 +50,5 @@ task {:NAME:}::run_phase(uvm_phase phase);
     {:endif:VIRTUAL_SEQUENCER:}
     phase.drop_objection(this);
 endtask: run_phase
+
+`endif

@@ -1,6 +1,6 @@
 
-`ifndef {:uc:NAME:}_DRIVER_SVH
-`define {:uc:NAME:}_DRIVER_SVH
+`ifndef {:NAME:}_DRIVER_SVH
+`define {:NAME:}_DRIVER_SVH
 
 class {:NAME:}_driver extends uvm_driver #({:SEQ_ITEM:});
     `uvm_component_utils({:NAME:}_driver)

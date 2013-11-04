@@ -1,5 +1,5 @@
 class {:NAME:}_sequence extends uvm_sequence #({:TRANSACTION:});
-    `uvm_object_utils({:NAME:}_sequence)
+    `uvm_sequence_utils({:NAME:}_sequence)
 
     // Attributes
     /*NONE*/
