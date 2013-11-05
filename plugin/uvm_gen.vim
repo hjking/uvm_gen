@@ -10,42 +10,50 @@ if (exists("g:uvm_plugin_loaded") && g:uvm_plugin_loaded)
 endif
 let g:uvm_plugin_loaded = 1
 
-let s:MSWIN = has("win16") || has("win32")   || has("win64")    || has("win95")
-let s:UNIX = has("unix")  || has("macunix") || has("win32unix")
+let s:save_cpo = &cpo
+set cpo&vim
 
+" set Auther in the header
 if exists("g:uvm_author")
     let s:uvm_author     = g:uvm_author
 else
     let s:uvm_author     = $USER
 endif
+
+" set email address in the header
 if exists("g:uvm_email")
     let s:uvm_email      = g:uvm_email
 else
     let s:uvm_email      = s:uvm_author . "@gmail.com"
 endif
+
+" set company in the header
 if exists("g:uvm_company")
     let s:uvm_company    = g:uvm_company
 else
-    let s:uvm_company    = " Copyright (c) 2013, Fiberhome Telecommunication Technology Co., Ltd."
+    let s:uvm_company    = ""
 endif
+
+" set deparment in the header
 if exists("g:uvm_department")
     let s:uvm_department = g:uvm_department
 else
-    let s:uvm_department = " Microelectronics Dept. Verification Group."
+    let s:uvm_department = ""
 endif
+" comment line
 let s:uvm_linecomment    = "//"
 let s:uvm_seprateline    = "----------------------------------------------------------------------"
-let s:uvm_copyright      = " All rights reserved."
-let s:uvm_filename       = " File     : " . expand("%:t")
-let s:header_author      = " Author   : " . s:uvm_author
-let s:header_email       = " EMail    : " . s:uvm_email
-let s:uvm_created        = " Created  : " . strftime ("%Y-%m-%d %H:%M:%S")
-let s:uvm_modified       = " Modified : " . strftime ("%Y-%m-%d %H:%M:%S")
-let s:uvm_description    = " Description : {:HERE:}"
-let s:uvm_history        = " History:"
-let s:uvm_history_author = "     Author   : " . s:uvm_author
-let s:uvm_history_date   = "     Date     : " . strftime ("%Y-%m-%d %H:%M:%S")
-let s:uvm_history_rev    = "     Revision : 1.0"
+let s:uvm_copyright      = "All rights reserved."
+let s:uvm_filename       = "File     : " . expand("%:t")
+let s:header_author      = "Author   : " . s:uvm_author
+let s:header_email       = "EMail    : " . s:uvm_email
+let s:uvm_created        = "Created  : " . strftime ("%Y-%m-%d %H:%M:%S")
+let s:uvm_modified       = "Modified : " . strftime ("%Y-%m-%d %H:%M:%S")
+let s:uvm_description    = "Description : {:HERE:}"
+let s:uvm_history        = "History:"
+let s:uvm_history_author = "    Author   : " . s:uvm_author
+let s:uvm_history_date   = "    Date     : " . strftime ("%Y-%m-%d %H:%M:%S")
+let s:uvm_history_rev    = "    Revision : 1.0"
 
 " normalize the path
 " replace the windows path sep \ with /
@@ -83,6 +91,7 @@ function <SID>TPutCursor()
     endif
 endfunction
 
+" Load the template, and read it
 function <SID>TLoadCmd(template)
     if filereadable(a:template)
         " let l:tFile = a:template
@@ -108,7 +117,7 @@ function! UVM_CheckGlobal ( name )
   endif
 endfunction    " ----------  end of function C_CheckGlobal ----------
 
-
+" make a header
 function s:UVMAddHeader()
     call append (0,  s:uvm_linecomment . " " . s:uvm_seprateline)
     call append (1,  s:uvm_linecomment . " " . s:uvm_company)
@@ -257,7 +266,8 @@ function UVMGen(type, name)
     endif
 endf
 
-command! -nargs=0 UVMAddHeader call s:UVMAddHeader()
+" === plugin commands === {{{
+command -nargs=0 UVMAddHeader call s:UVMAddHeader()
 command -nargs=1 -complete=file UVMEnv call UVMEnv("<args>")
 command -nargs=1 -complete=file UVMTest call UVMTest("<args>")
 command -nargs=1 -complete=file UVMAgent call UVMAgent("<args>")
@@ -267,3 +277,7 @@ command -nargs=1 -complete=file UVMSeq call UVMSeq("<args>")
 command -nargs=1 -complete=file UVMTr call UVMTr("<args>")
 command -nargs=1 -complete=file UVMTop call UVMTop("<args>")
 command -nargs=+ UVMGen call UVMGen(<f-args>)
+" }}}
+
+let &cpo = s:save_cpo
+unlet s:save_cpo
