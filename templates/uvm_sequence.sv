@@ -1,5 +1,5 @@
-`ifndef {:UPPERNAME:}_SEQUENCE_SVH
-`define {:UPPERNAME:}_SEQUENCE_SVH
+`ifndef {:UPPERNAME:}_SEQUENCE_SV
+`define {:UPPERNAME:}_SEQUENCE_SH
 
 class {:NAME:}_sequence extends uvm_sequence #({:TRANSACTION:});
     `uvm_sequence_utils({:NAME:}_sequence)
@@ -23,7 +23,7 @@ endclass: {:NAME:}_sequence
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation
 //------------------------------------------------------------------------------
-function {:NAME:}_sequence::new(string name="{:NAME:}_sequence");
+function {:NAME:}_sequence::new (string name="{:NAME:}_sequence");
     super.new(name);
 endfunction: {:NAME:}_sequence::new
 

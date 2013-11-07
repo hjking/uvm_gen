@@ -1,5 +1,5 @@
-`ifndef {:UPPERNAME:}_MONITOR_SVH
-`define {:UPPERNAME:}_MONITOR_SVH
+`ifndef {:UPPERNAME:}_MONITOR_SV
+`define {:UPPERNAME:}_MONITOR_SV
 
 class {:NAME:}_monitor extends uvm_monitor;
     `uvm_component_utils({:NAME:}_monitor)
@@ -17,11 +17,11 @@ endclass : {:NAME:}_monitor
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation
 //------------------------------------------------------------------------------
-function {:NAME:}_monitor::new(string name="{:NAME:}_monitor", uvm_component parent=null);
+function {:NAME:}_monitor::new (string name="{:NAME:}_monitor", uvm_component parent=null);
     super.new(name, parent);
 endfunction: new
 
-task {:NAME:}_monitor::run_phase(uvm_phase phase);
+task {:NAME:}_monitor::run_phase (uvm_phase phase);
     {:TRANSACTION:} trans; //< place to store gathered data
     {:INITIALIZAION:}
     forever begin

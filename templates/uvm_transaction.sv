@@ -31,7 +31,7 @@ class {:NAME:}_transaction extends uvm_sequence_item;
     //------------------------------------------
     // Methods
     //------------------------------------------
-    extern function new(string name="{:NAME:}_transaction");
+    extern function new (string name="{:NAME:}_transaction");
     //extern function void   do_copy(uvm_object rhs);
     //extern function bit    do_compare(uvm_object rhs, uvm_comparer _comparer);
     //extern function string convert2string();
@@ -44,9 +44,9 @@ endclass: {:NAME:}_transaction
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation
 //------------------------------------------------------------------------------
-function {:NAME:}_transaction::new(string name);
+function {:NAME:}_transaction::new (string name="{:NAME:}_transaction");
     super.new(name);
-endfunction: {:NAME:}_transaction::new
+endfunction: new
 
 //`include "{:NAME:}_do_copy.svh"        /*% new do_copy        {:NAME:} FIELD1=... */
 //`include "{:NAME:}_do_compare.svh"     /*% new do_compare     {:NAME:} FIELD1=... */

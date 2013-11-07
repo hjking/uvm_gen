@@ -35,9 +35,9 @@ class {:NAME:}_agent extends uvm_agent;
     // Methods
     //------------------------------------------
     // Standard Methods
-    extern function new(string name = "{:NAME:}_agent", uvm_component parent = null);
-    extern function void build_phase(uvm_phase phase);
-    extern function void connect_phase(uvm_phase phase);
+    extern function new (string name = "{:NAME:}_agent", uvm_component parent = null);
+    extern function void build_phase (uvm_phase phase);
+    extern function void connect_phase (uvm_phase phase);
 
 endclass: {:NAME:}_agent
 
@@ -45,7 +45,7 @@ endclass: {:NAME:}_agent
 // Implementation
 //------------------------------------------------------------------------------
 // Constructor
-function {:NAME:}_agent::new(string name = "{:NAME:}_agent", uvm_component parent = null);
+function {:NAME:}_agent::new (string name = "{:NAME:}_agent", uvm_component parent = null);
     super.new(name, parent);
 endfunction
 
@@ -53,7 +53,7 @@ endfunction
 // Construct sub-components
 // retrieve and set sub-component configuration
 //
-function void {:NAME:}_agent::build_phase(uvm_phase phase);
+function void {:NAME:}_agent::build_phase (uvm_phase phase);
     super.build_phase(phase);
     if(!uvm_config_db #({:NAME:}_agent_config)::get(this,"{:NAME:}_agent_config", m_cfg))begin
         `uvm_error({MSGID,"Failed to get agent's config object: {:NAME:}_agent_config")
@@ -73,7 +73,7 @@ endfunction: build_phase
 //------------------------------------------------------------------------------
 // Connect sub-components
 //
-function void {:NAME:}_agent::connect_phase(uvm_phase phase);
+function void {:NAME:}_agent::connect_phase (uvm_phase phase);
     m_monitor.{:NAME:}_vif = m_cfg.{:NAME:}_vif;
     analysis_port = m_monitor.analysis_port;
     // Only connect the driver and the sequencer if active

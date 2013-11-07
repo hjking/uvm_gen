@@ -51,26 +51,27 @@ class {:NAME:}_env extends uvm_env;
     //------------------------------------------
     // Methods
     //------------------------------------------
-    extern function new(string name="{:NAME:}_env", uvm_component parent=null);
-    extern function void build_phase(uvm_phase _phase);
-    extern function void connect_phase(uvm_phase phase);
+    extern function new (string name="{:NAME:}_env", uvm_component parent=null);
+    extern function void end_of_elaboration_phase (uvm_phase _phase);
+    extern function void build_phase (uvm_phase _phase);
+    extern function void connect_phase (uvm_phase phase);
 
 endclass :{:NAME:}_env
 
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation
 //------------------------------------------------------------------------------
-function {:NAME:}_env::new(string name="", uvm_component parent=null);
+function {:NAME:}_env::new (string name="{:NAME:}_env", uvm_component parent=null);
     super.new(name, parent);
-endfunction: {:NAME:}_env::new
+endfunction: new
 
 //------------------------------------------------------------------------------
-function void {:NAME:}_env::end_of_elaboration_phase(uvm_phase phase);
+function void {:NAME:}_env::end_of_elaboration_phase (uvm_phase phase);
     super.build(phase);
 endfunction
 
 //------------------------------------------------------------------------------
-function void {:NAME:}_env::build_phase(uvm_phase phase);
+function void {:NAME:}_env::build_phase (uvm_phase phase);
 
     string inst_name;
     super.build(phase);
@@ -96,10 +97,10 @@ function void {:NAME:}_env::build_phase(uvm_phase phase);
     m_{:REG1:}_reg_model.build();
     {:endif:REG1:}
 
-endfunction: {:NAME:}_env::build_phase
+endfunction: build_phase
 
 //------------------------------------------------------------------------------
-function void {:NAME:}_env::connect_phase(uvm_phase phase);
+function void {:NAME:}_env::connect_phase (uvm_phase phase);
     // Connectivity if any
 
     {:if:REG1:}
@@ -117,6 +118,6 @@ function void {:NAME:}_env::connect_phase(uvm_phase phase);
     end
     {:endif:REG1:}
 
-endfunction: {:NAME:}_env::connect_phase
+endfunction: connect_phase
 
 `endif

@@ -1,8 +1,8 @@
 " Vim Plugin for UVM Code Automactic Generation
-" Language:     SystemVerilog
+" Language:     Vim
 " Maintainer:   Hong Jin <hon9jin@gmail.com>
 " Version:      0.10
-" Last Update:  2013-10-31 08:37
+" Modified:  2013-10-31 08:37
 " For version 7.x or above
 
 if (exists("g:uvm_plugin_loaded") && g:uvm_plugin_loaded)
@@ -165,11 +165,13 @@ function! UVMTest(name)
     call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     if (a:name == "base")
-        let a:name_temp = "test_" . a:name
+        " let a:name_temp = "tc_" . a:name
+        let a:name_temp = "tc_base"
         let a:parent_name = "uvm_test"
     else
-        let a:name_temp = a:name . "_test"
-        let a:parent_name = "test_base"
+        " let a:name_temp = a:name . "_test"
+        let a:name_temp = "test"
+        let a:parent_name = "tc_base"
     endif
     call <SID>TExpand("NAME", a:name_temp)
     call <SID>TExpand("PARENT", a:parent_name)
