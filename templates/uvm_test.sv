@@ -1,20 +1,36 @@
-`ifndef {:NAME:}_SV
-`define {:NAME:}_SV
+`ifndef {:UPPERNAME:}_SV
+`define {:UPPERNAME:}_SV
 
-//==============================================================================
-// Declaration
+//------------------------------------------------------------------------------
+// Class Description
 //------------------------------------------------------------------------------
 class {:NAME:} extends {:PARENT:};
+
+    //------------------------------------------
+    // UVM Factory Registration Macro
+    //------------------------------------------
     `uvm_component_utils({:NAME:})
+
+    //------------------------------------------
+    // Data Members
+    //------------------------------------------
+
+    //------------------------------------------
+    // Component Members
+    //------------------------------------------
     {:ENV_NAME:}_env m_env;
-    extern function new (string name, uvm_component parent);
+
+    //------------------------------------------
+    // Methods
+    //------------------------------------------
+    extern function new(string name, uvm_component parent);
     extern function void build_phase(uvm_phase phase);
     extern function void end_of_elaboration_phase(uvm_phase phase);
     extern task run_phase(uvm_phase phase);
     extern function void final_phase(uvm_phase phase);
 endclass: {:NAME:}
 
-//==============================================================================
+//------------------------------------------------------------------------------
 // Implementation
 //------------------------------------------------------------------------------
 function {:NAME:}::new(string name, uvm_component parent);

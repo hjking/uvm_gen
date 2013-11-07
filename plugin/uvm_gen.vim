@@ -55,6 +55,9 @@ let s:uvm_history_author = "    Author   : " . s:uvm_author
 let s:uvm_history_date   = "    Date     : " . strftime ("%Y-%m-%d %H:%M:%S")
 let s:uvm_history_rev    = "    Revision : 1.0"
 
+" List of all types
+let s:type_list = ["agent","config","driver","env","monitor","sequence","test","top","transaction"]
+
 " normalize the path
 " replace the windows path sep \ with /
 function <SID>NormalizePath(path)
@@ -145,16 +148,19 @@ endfunction
 function! UVMEnv(name)
     let a:template_filename = "uvm_env.sv"
     let a:template = s:default_template_dir . "/" . a:template_filename
+    let a:uppername = toupper(a:name)
 
     call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     call <SID>TExpand("NAME", a:name)
+    call <SID>TExpand("UPPERNAME", a:uppername)
     call <SID>TPutCursor()
 endfunction
 
 function! UVMTest(name)
     let a:template_filename = "uvm_test.sv"
     let a:template = s:default_template_dir . "/" . a:template_filename
+    let a:uppername = toupper(a:name)
 
     call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
@@ -167,66 +173,91 @@ function! UVMTest(name)
     endif
     call <SID>TExpand("NAME", a:name_temp)
     call <SID>TExpand("PARENT", a:parent_name)
+    call <SID>TExpand("UPPERNAME", a:uppername)
     call <SID>TPutCursor()
 endfunction
 
 function! UVMAgent(name)
     let a:template_filename = "uvm_agent.sv"
     let a:template = s:default_template_dir . "/" . a:template_filename
+    let a:uppername = toupper(a:name)
 
     call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     call <SID>TExpand("NAME", a:name)
+    call <SID>TExpand("UPPERNAME", a:uppername)
     call <SID>TPutCursor()
 endfunction
 
 function! UVMDriver(name)
     let a:template_filename = "uvm_driver.sv"
     let a:template = s:default_template_dir . "/" . a:template_filename
+    let a:uppername = toupper(a:name)
 
     call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     call <SID>TExpand("NAME", a:name)
+    call <SID>TExpand("UPPERNAME", a:uppername)
     call <SID>TPutCursor()
 endfunction
 
 function! UVMMon(name)
     let a:template_filename = "uvm_monitor.sv"
     let a:template = s:default_template_dir . "/" . a:template_filename
+    let a:uppername = toupper(a:name)
 
     call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     call <SID>TExpand("NAME", a:name)
+    call <SID>TExpand("UPPERNAME", a:uppername)
     call <SID>TPutCursor()
 endfunction
 
 function! UVMSeq(name)
     let a:template_filename = "uvm_sequence.sv"
     let a:template = s:default_template_dir . "/" . a:template_filename
+    let a:uppername = toupper(a:name)
 
     call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     call <SID>TExpand("NAME", a:name)
+    call <SID>TExpand("UPPERNAME", a:uppername)
     call <SID>TPutCursor()
 endfunction
 
 function! UVMTr(name)
     let a:template_filename = "uvm_transaction.sv"
     let a:template = s:default_template_dir . "/" . a:template_filename
+    let a:uppername = toupper(a:name)
 
     call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     call <SID>TExpand("NAME", a:name)
+    call <SID>TExpand("UPPERNAME", a:uppername)
     call <SID>TPutCursor()
 endfunction
 
 function! UVMTop(name)
     let a:template_filename = "uvm_test_top.sv"
     let a:template = s:default_template_dir . "/" . a:template_filename
+    let a:uppername = toupper(a:name)
 
     call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     call <SID>TExpand("NAME", a:name)
+    call <SID>TExpand("UPPERNAME", a:uppername)
+    call <SID>TPutCursor()
+endfunction
+
+function! UVMConfig(name)
+    let a:template_filename = "uvm_config.sv"
+    let a:template = s:default_template_dir . "/" . a:template_filename
+    let a:uppername = toupper(a:name)
+
+    call s:UVMAddHeader()
+    call <SID>TLoadCmd(a:template)
+    call <SID>TExpand("NAME", a:name)
+    call <SID>TExpand("UPPERNAME", a:uppername)
     call <SID>TPutCursor()
 endfunction
 
@@ -239,6 +270,8 @@ function UVMGen(type, name)
 "     let a:name = a:2
     if (a:type== "agent")
         call UVMAgent(a:name)
+    elseif (a:type== "config")
+        call UVMConfig(a:name)
     elseif (a:type== "driver")
         call UVMDriver(a:name)
     elseif (a:type== "env")
@@ -256,6 +289,7 @@ function UVMGen(type, name)
     else
         echo "The first ARG, Please following the instructions:"
         echo " agent            - Generate UVM Agent"
+        echo " config           - Generate UVM Config"
         echo " driver           - Generate UVM Driver"
         echo " env              - Generate UVM Env"
         echo " monitor / mon    - Generate UVM Monitor"
@@ -266,17 +300,23 @@ function UVMGen(type, name)
     endif
 endf
 
+" Return types name as arguments
+function ReturnTypesList(A,L,P)
+    return s:type_list
+endf
+
 " === plugin commands === {{{
 command -nargs=0 UVMAddHeader call s:UVMAddHeader()
-command -nargs=1 -complete=file UVMEnv call UVMEnv("<args>")
-command -nargs=1 -complete=file UVMTest call UVMTest("<args>")
-command -nargs=1 -complete=file UVMAgent call UVMAgent("<args>")
-command -nargs=1 -complete=file UVMDriver call UVMDriver("<args>")
-command -nargs=1 -complete=file UVMMon call UVMMon("<args>")
-command -nargs=1 -complete=file UVMSeq call UVMSeq("<args>")
-command -nargs=1 -complete=file UVMTr call UVMTr("<args>")
-command -nargs=1 -complete=file UVMTop call UVMTop("<args>")
-command -nargs=+ UVMGen call UVMGen(<f-args>)
+command -nargs=1 UVMEnv call UVMEnv("<args>")
+command -nargs=1 UVMTest call UVMTest("<args>")
+command -nargs=1 UVMAgent call UVMAgent("<args>")
+command -nargs=1 UVMDriver call UVMDriver("<args>")
+command -nargs=1 UVMMon call UVMMon("<args>")
+command -nargs=1 UVMSeq call UVMSeq("<args>")
+command -nargs=1 UVMTr call UVMTr("<args>")
+command -nargs=1 UVMTop call UVMTop("<args>")
+command -nargs=1 UVMConfig call UVMConfig("<args>")
+command -nargs=+ -complete=customlist,ReturnTypesList UVMGen call UVMGen(<f-args>)
 " }}}
 
 let &cpo = s:save_cpo

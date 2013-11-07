@@ -1,5 +1,5 @@
-`ifndef {:uc:NAME:}_MONITOR_SVH
-`define {:uc:NAME:}_MONITOR_SVH
+`ifndef {:UPPERNAME:}_MONITOR_SVH
+`define {:UPPERNAME:}_MONITOR_SVH
 
 class {:NAME:}_monitor extends uvm_monitor;
     `uvm_component_utils({:NAME:}_monitor)

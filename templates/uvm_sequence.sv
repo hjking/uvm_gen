@@ -1,3 +1,6 @@
+`ifndef {:UPPERNAME:}_SEQUENCE_SVH
+`define {:UPPERNAME:}_SEQUENCE_SVH
+
 class {:NAME:}_sequence extends uvm_sequence #({:TRANSACTION:});
     `uvm_sequence_utils({:NAME:}_sequence)
 
@@ -37,3 +40,5 @@ task {:NAME:}_sequence::body;
 
     if (starting_phase != null) starting_phase.drop_objection(this,"finishing {:NAME:}_sequence");
 endtask: {:NAME:}_sequence::body
+
+`endif

@@ -1,5 +1,5 @@
-`ifndef {:NAME:}_TRANSACTION_SV
-`define {:NAME:}_TRANSACTION_SV
+`ifndef {:UPPERNAME:}_TRANSACTION_SV
+`define {:UPPERNAME:}_TRANSACTION_SV
 
 //------------------------------------------------------------------------------
 //
@@ -9,6 +9,9 @@
 
 class {:NAME:}_transaction extends uvm_sequence_item;
 
+    //------------------------------------------
+    // Data Members
+    //------------------------------------------
     // Request data attributes
     rand {:TYPE1:} {:IDENTIFIER1:};
 
@@ -17,12 +20,17 @@ class {:NAME:}_transaction extends uvm_sequence_item;
 
     }
 
+    //------------------------------------------
     // Field automation
+    //------------------------------------------
     `uvm_object_utils_begin({:NAME:}_transaction)
         `uvm_field_{:FIELD_TYPE1:}({:IDENTIFIER1:}, UVM_ALL_ON)
     `uvm_object_utils_end
 
+
+    //------------------------------------------
     // Methods
+    //------------------------------------------
     extern function new(string name="{:NAME:}_transaction");
     //extern function void   do_copy(uvm_object rhs);
     //extern function bit    do_compare(uvm_object rhs, uvm_comparer _comparer);

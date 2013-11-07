@@ -1,5 +1,5 @@
-`ifndef {:NAME:}_SCOREBOARD_SVH
-`define {:NAME:}_SCOREBOARD_SVH
+`ifndef {:UPPERNAME:}_SCOREBOARD_SVH
+`define {:UPPERNAME:}_SCOREBOARD_SVH
 
 class {:NAME:}_scoreboard extends uvm_scoreboard;
     `uvm_component_utils({:NAME:}_scoreboard)

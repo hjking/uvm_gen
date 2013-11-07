@@ -16,12 +16,15 @@ module {:NAME:}_test_top;
     // Instantiate the static parts of the testbench
     //
     {:if:PORTS:}
-    {:INTERFACE:}_if {:INTERFACE:}_if1({:CLOCK:},{:PORTS:});
+    {:INTERFACE1:}_if {:INTERFACE1:}_if1({:CLOCK:},{:PORTS:});
+    {:INTERFACE2:}_if {:INTERFACE2:}_if2({:CLOCK:},{:PORTS:});
     {:else:PORTS:}
-    {:INTERFACE:}_if {:INTERFACE:}_if1({:CLOCK:});
+    {:INTERFACE1:}_if {:INTERFACE1:}_if1({:CLOCK:});
+    {:INTERFACE2:}_if {:INTERFACE2:}_if2({:CLOCK:});
     {:endif:PORTS:}
 
-    dut_model dut(
+    // DUT
+    {:DUT:} dut(
         {:CONNECTION_LIST:}
     )
 
@@ -29,6 +32,8 @@ module {:NAME:}_test_top;
     initial begin
         // Hardware interfaces for UVM monitors & drivers
         uvm_config_db #(virtual {:INTERFACE}_if.{:MODPORT:})::set(null, "*", "{:MODPORT:}", {:INTERFACE:}_if1.{:MODPORT:});
+        uvm_config_db #(virtual {:INTERFACE1}_if)::set(null, "{:NAME:}_test_top", "{:MODPORT:}", {:INTERFACE1:}_if1);
+        uvm_config_db #(virtual {:INTERFACE2}_if)::set(null, "{:NAME:}_test_top", "{:MODPORT:}", {:INTERFACE2:}_if2);
 
         run_test();
     end

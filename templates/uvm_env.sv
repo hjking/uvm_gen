@@ -1,5 +1,5 @@
-`ifndef {:NAME:}_ENV_SV
-`define {:NAME:}_ENV_SV
+`ifndef {:UPPERNAME:}_ENV_SV
+`define {:UPPERNAME:}_ENV_SV
 
 //------------------------------------------------------------------------------
 //
@@ -11,6 +11,9 @@ class {:NAME:}_env extends uvm_env;
     // Virtual Interface variable
     protected virtual interface {:NAME:}_if vif;
 
+    //------------------------------------------
+    // Data Members
+    //------------------------------------------
     // Control properties
     protected bit has_bus_monitor = 1;
     protected int unsigned num_masters = 0;
@@ -21,6 +24,9 @@ class {:NAME:}_env extends uvm_env;
     bit intf_checks_enable = 1;
     bit intf_coverage_enable = 1;
 
+    //------------------------------------------
+    // Sub components
+    //------------------------------------------
     // Agent instance handles
     {:AGENT1:}_agent m_{:AGENT1:}_agent[];
     {:AGENT2:}_agent s_{:AGENT2:}_agent[];
@@ -28,6 +34,7 @@ class {:NAME:}_env extends uvm_env;
     // Virtual sequencer
     <VSQR> m_virtual_sequencer;
 
+    // UVM Factory Registration Macro
     `uvm_component_utils_begin({:NAME:}_env)
         `uvm_field_int(has_bus_monitor, UVM_ALL_ON)
         `uvm_field_int(num_masters, UVM_ALL_ON)
@@ -41,8 +48,10 @@ class {:NAME:}_env extends uvm_env;
     {:REG1:}_reg_model m_{:REG1:}_reg_model;
     {:endif:REG1:}
 
+    //------------------------------------------
     // Methods
-    extern function new(string name="", uvm_component parent=null);
+    //------------------------------------------
+    extern function new(string name="{:NAME:}_env", uvm_component parent=null);
     extern function void build_phase(uvm_phase _phase);
     extern function void connect_phase(uvm_phase phase);
 
