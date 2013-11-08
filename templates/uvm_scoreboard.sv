@@ -13,7 +13,7 @@ class {:NAME:}_scoreboard extends uvm_scoreboard;
     extern task run_phase (uvm_phase phase);
     extern function void start_of_simulation_phase (uvm_phase phase);
     extern function void report_phase (uvm_phase phase);
-endclass : {:NAME:}_monitor
+endclass: {:NAME:}_monitor
 
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation
@@ -21,6 +21,9 @@ endclass : {:NAME:}_monitor
 function {:NAME:}_scoreboard::new (string name="{:NAME:}_scoreboard", uvm_component parent=null);
     super.new(name, parent);
 endfunction: new
+
+function void connect_phase (uvm_phase phase);
+endfunction
 
 task {:NAME:}_scoreboard::run_phase (uvm_phase phase);
 endtask: run_phase

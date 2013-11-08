@@ -6,13 +6,15 @@ class {:NAME:}_monitor extends uvm_monitor;
 
     // Attributes
     virtual {:INTERFACE:}_if.monitor_mp vif;
-    uvm_analysis_port#({:TRANSACTION:}) analysis_port;
+    uvm_analysis_port #({:TRANSACTION:}) analysis_port;
+    {:NAME:}_config m_config;
 
     // Methods
-    extern function new(string name="{:NAME:}_monitor", uvm_component parent=null);
-    extern task run_phase(uvm_phase phase);
-    extern function start_of_simulation_phase(uvm_phase phase);
-endclass : {:NAME:}_monitor
+    extern function new (string name="{:NAME:}_monitor", uvm_component parent=null);
+    extern function build_phase (uvm_phase phase);
+    extern task run_phase (uvm_phase phase);
+    extern function start_of_simulation_phase (uvm_phase phase);
+endclass: {:NAME:}_monitor
 
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation
@@ -20,6 +22,12 @@ endclass : {:NAME:}_monitor
 function {:NAME:}_monitor::new (string name="{:NAME:}_monitor", uvm_component parent=null);
     super.new(name, parent);
 endfunction: new
+
+function {:NAME:}_monitor::build_phase (uvm_phase phase);
+    super.build_phase(phase);
+    analysis_port = new("analysis_port", this);
+    m_config = {:NAME:}_config::get_config(this);
+endfunction
 
 task {:NAME:}_monitor::run_phase (uvm_phase phase);
     {:TRANSACTION:} trans; //< place to store gathered data

@@ -1,7 +1,7 @@
 uvm_gen
 =======
 
-:Author: Hong Jin <hon9jin@gmail.com>
+Author: Hong Jin <hon9jin@gmail.com>
 
 UVM Generator
 
