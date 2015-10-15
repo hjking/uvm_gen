@@ -56,7 +56,7 @@ let s:uvm_history_date   = "    Date     : " . strftime ("%Y-%m-%d %H:%M:%S")
 let s:uvm_history_rev    = "    Revision : 1.0"
 
 " List of all types
-let s:type_list = ["agent","config","driver","env","monitor","sequence","test","top","transaction"]
+let s:type_list = ["agent","config","driver","env","monitor","sequence","test","top","item"]
 
 " normalize the path
 " replace the windows path sep \ with /
@@ -286,7 +286,7 @@ function UVMGen(type, name)
         call UVMTest(a:name)
     elseif (a:type== "top")
         call UVMTop(a:name)
-    elseif (a:type== "transaction") || (a:type == "tr")
+    elseif (a:type== "item") || (a:type == "it")
         call UVMTr(a:name)
     else
         echo "The first ARG, Please following the instructions:"
@@ -298,7 +298,7 @@ function UVMGen(type, name)
         echo " sequence / seq   - Generate UVM Sequence"
         echo " test             - Generate UVM Test"
         echo " top              - Generate UVM Top"
-        echo " transaction / tr - Generate UVM Sequence Item"
+        echo " item / it        - Generate UVM Sequence Item"
     endif
 endf
 
@@ -316,6 +316,7 @@ command -nargs=1 UVMDriver call UVMDriver("<args>")
 command -nargs=1 UVMMon call UVMMon("<args>")
 command -nargs=1 UVMSeq call UVMSeq("<args>")
 command -nargs=1 UVMTr call UVMTr("<args>")
+command -nargs=1 UVMItem call UVMTr("<args>")
 command -nargs=1 UVMTop call UVMTop("<args>")
 command -nargs=1 UVMConfig call UVMConfig("<args>")
 command -nargs=+ -complete=customlist,ReturnTypesList UVMGen call UVMGen(<f-args>)

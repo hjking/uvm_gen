@@ -1,13 +1,13 @@
-`ifndef {:UPPERNAME:}_TRANSACTION_SV
-`define {:UPPERNAME:}_TRANSACTION_SV
+`ifndef {:UPPERNAME:}_ITEM_SV
+`define {:UPPERNAME:}_ITEM_SV
 
 //------------------------------------------------------------------------------
 //
-// CLASS: {:NAME:}_transaction
+// CLASS: {:NAME:}
 //
 //------------------------------------------------------------------------------
 
-class {:NAME:}_transaction extends uvm_sequence_item;
+class {:NAME:} extends uvm_sequence_item;
 
     //------------------------------------------
     // Data Members
@@ -23,7 +23,7 @@ class {:NAME:}_transaction extends uvm_sequence_item;
     //------------------------------------------
     // Field automation
     //------------------------------------------
-    `uvm_object_utils_begin({:NAME:}_transaction)
+    `uvm_object_utils_begin({:NAME:})
         `uvm_field_{:FIELD_TYPE1:}({:IDENTIFIER1:}, UVM_ALL_ON)
     `uvm_object_utils_end
 
@@ -31,7 +31,7 @@ class {:NAME:}_transaction extends uvm_sequence_item;
     //------------------------------------------
     // Methods
     //------------------------------------------
-    extern function new (string name="{:NAME:}_transaction");
+    extern function new(string name="{:NAME:}");
     // extern function void   do_copy (uvm_object rhs);
     // extern function bit    do_compare (uvm_object rhs, uvm_comparer _comparer);
     // extern function string convert2string ();
@@ -40,34 +40,34 @@ class {:NAME:}_transaction extends uvm_sequence_item;
     // extern function void   do_pack (uvm_object rhs);
     // extern function void   do_unpack (uvm_object rhs);
 
-endclass: {:NAME:}_transaction
+endclass : {:NAME:}
 
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation
 //------------------------------------------------------------------------------
-function {:NAME:}_transaction::new (string name="{:NAME:}_transaction");
+function {:NAME:}::new(string name="{:NAME:}");
     super.new(name);
-endfunction: new
+endfunction : new
 
-// function void   {:NAME:}_transaction::do_copy(uvm_object rhs);
+// function void {:NAME:}::do_copy(uvm_object rhs);
 // endfunction
 
-// function bit    {:NAME:}_transaction::do_compare(uvm_object rhs, uvm_comparer _comparer);
+// function bit {:NAME:}::do_compare(uvm_object rhs, uvm_comparer _comparer);
 // endfunction
 
-// function string {:NAME:}_transaction::convert2string();
+// function string {:NAME:}::convert2string();
 // endfunction
 
-// function void   {:NAME:}_transaction::do_print(uvm_printer printer);
+// function void {:NAME:}::do_print(uvm_printer printer);
 // endfunction
 
-// function void   {:NAME:}_transaction::do_record(uvm_recorder recorder);
+// function void {:NAME:}::do_record(uvm_recorder recorder);
 // endfunction
 
-// function void   {:NAME:}_transaction::do_pack(uvm_object rhs);
+// function void {:NAME:}::do_pack(uvm_object rhs);
 // endfunction
 
-// function void   {:NAME:}_transaction::do_unpack(uvm_object rhs);
+// function void {:NAME:}::do_unpack(uvm_object rhs);
 // endfunction
 
 `endif
