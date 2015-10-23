@@ -37,8 +37,8 @@ class {:NAME:} extends uvm_sequence_item;
     // extern function string convert2string ();
     // extern function void   do_print (uvm_printer printer);
     // extern function void   do_record (uvm_recorder recorder);
-    // extern function void   do_pack (uvm_object rhs);
-    // extern function void   do_unpack (uvm_object rhs);
+    // extern function void   do_pack (uvm_packer rhs);
+    // extern function void   do_unpack (uvm_packer rhs);
 
 endclass : {:NAME:}
 
@@ -64,10 +64,10 @@ endfunction : new
 // function void {:NAME:}::do_record(uvm_recorder recorder);
 // endfunction
 
-// function void {:NAME:}::do_pack(uvm_object rhs);
+// function void {:NAME:}::do_pack(uvm_packer rhs);
 // endfunction
 
-// function void {:NAME:}::do_unpack(uvm_object rhs);
+// function void {:NAME:}::do_unpack(uvm_packer rhs);
 // endfunction
 
 `endif
