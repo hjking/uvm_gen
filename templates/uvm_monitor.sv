@@ -2,6 +2,7 @@
 `define {:UPPERNAME:}_MONITOR_SV
 
 class {:NAME:}_monitor extends uvm_monitor;
+
     `uvm_component_utils({:NAME:}_monitor)
 
     // Attributes
