@@ -26,10 +26,11 @@ class {:NAME:}_agent extends uvm_agent;
     // Component Members
     //------------------------------------------
     uvm_analysis_port #({:TRANSACTION:}) analysis_port;
-    {:NAME:}_monitor        m_monitor;
-    {:NAME:}_sequencer      m_sequencer;
-    {:NAME:}_driver         m_driver;
-    {:NAME:}_coverage       m_coverage;
+
+    {:NAME:}_sequencer #({:TRANSACTION:})   m_sequencer;
+    {:NAME:}_monitor                        m_monitor;
+    {:NAME:}_driver                         m_driver;
+    {:NAME:}_coverage                       m_coverage;
 
     //------------------------------------------
     // Methods
@@ -62,8 +63,8 @@ function void {:NAME:}_agent::build_phase (uvm_phase phase);
     m_monitor = {:NAME:}_monitor::type_id::create("m_monitor", this);
     // Only build the driver and sequencer if active
     if(m_cfg.is_active == UVM_ACTIVE)begin
+        m_sequencer = {:NAME:}_sequencer#({:TRANSACTION:})::type_id::create("m_sequencer", this);
         m_driver    = {:NAME:}_driver::type_id::create("m_driver", this);
-        m_sequencer = {:NAME:}_sequencer::type_id::create("m_sequencer", this);
     end
     if(m_cfg.has_functional_coverage)begin
         m_coverage = {:NAME:}_coverage::type_id::create("m_coverage", this);
