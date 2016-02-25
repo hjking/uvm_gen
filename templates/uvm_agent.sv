@@ -57,7 +57,7 @@ endfunction
 function void {:NAME:}_agent::build_phase (uvm_phase phase);
     super.build_phase(phase);
     if(!uvm_config_db #({:NAME:}_agent_config)::get(this,"{:NAME:}_agent_config", m_cfg))begin
-        `uvm_error({MSGID,"Failed to get agent's config object: {:NAME:}_agent_config")
+        `uvm_error({MSGID,"Failed to get agent's config object: {:NAME:}_agent_config"})
     end
     // Monitor is always present
     m_monitor = {:NAME:}_monitor::type_id::create("m_monitor", this);
