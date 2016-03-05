@@ -4,7 +4,7 @@
 class {:NAME:}_monitor extends uvm_monitor;
 
     // Attributes
-    virtual {:INTERFACE:}_if.monitor_mp vif;
+    virtual {:NAME:}_if vif;
     uvm_analysis_port #({:TRANSACTION:}) analysis_port;
     {:NAME:}_config m_config;
 
@@ -22,62 +22,53 @@ class {:NAME:}_monitor extends uvm_monitor;
         `uvm_field_int(coverage_enable, UVM_ALL_ON)
     `uvm_component_utils_end
 
-    // Methods
-    extern function new (string name="{:NAME:}_monitor", uvm_component parent=null);
-    extern function build_phase (uvm_phase phase);
-    extern task run_phase (uvm_phase phase);
-    extern function start_of_simulation_phase (uvm_phase phase);
-    extern virtual protected task collect_transactions();
-    extern virtual protected function void perform_transfer_coverage();
+    ////////////////////////////////////////////////////////////////////////////////
+    // Implementation
+    //------------------------------------------------------------------------------
+    function new(string name="{:NAME:}_monitor", uvm_component parent=null);
+        super.new(name, parent);
+        cov_trans = new();
+        cov_trans.set_inst_name({get_full_name(), ".cov_trans"});
+        trans_collected = new();
+    endfunction: new
+
+    function build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        analysis_port = new("analysis_port", this);
+
+        m_config = {:NAME:}_config::get_config(this);
+
+        if(!uvm_config_db#(virtual {:NAME:}_if)::get(this, "", "{:NAME:}_vif", vif))
+            `uvm_fatal("NOVIF", {"virtual interface must be set for: ", get_full_name(), ".vif"});
+    endfunction
+
+    task run_phase(uvm_phase phase);
+        collect_transactions(); // collector task
+    endtask: run_phase
+
+    task collect_transactions();
+        forever begin
+            phase.raise_objection();
+            bus_to_transaction();
+            if (checks_enable)
+                perform_transfer_checks();
+            if (coverage_enable)
+                perform_transfer_coverage();
+            analysis_port.write(trans_collected);
+            phase.drop_objection();
+        end
+    endtask : collect_transactions
+
+    function void bus_to_transaction();
+    endfunction : bus_to_transaction
+
+    function void perform_transfer_coverage();
+        -> cov_transaction;
+    endfunction : perform_transfer_coverage
+
+    function void perform_transfer_checks();
+    endfunction : perform_transfer_checks
+
 endclass: {:NAME:}_monitor
-
-////////////////////////////////////////////////////////////////////////////////
-// Implementation
-//------------------------------------------------------------------------------
-function {:NAME:}_monitor::new (string name="{:NAME:}_monitor", uvm_component parent=null);
-    super.new(name, parent);
-    cov_trans = new();
-    cov_trans.set_inst_name({get_full_name(), ".cov_trans"});
-    trans_collected = new();
-endfunction: new
-
-function {:NAME:}_monitor::build_phase (uvm_phase phase);
-    super.build_phase(phase);
-    analysis_port = new("analysis_port", this);
-    m_config = {:NAME:}_config::get_config(this);
-endfunction
-
-task {:NAME:}_monitor::run_phase (uvm_phase phase);
-    {:INITIALIZAION:}
-    collect_transactions(); // collector task
-endtask: run_phase
-
-task {:NAME:}_monitor::collect_transactions();
-    forever begin
-        @({:EVENT_:});
-        phase.raise_objection();
-        {:GATHER_DATA_INTO_TRANS:}
-        if (checks_enable)
-            perform_transfer_checks();
-        if (coverage_enable)
-            perform_transfer_coverage();
-        analysis_port.write(trans_collected);
-        phase.drop_objection();
-    end
-endtask : collect_transactions
-
-function void {:NAME:}_monitor::perform_transfer_coverage();
-    -> cov_transaction;
-endfunction : perform_transfer_coverage
-
-function void perform_transfer_checks();
-
-endfunction : perform_transfer_checks
-
-//------------------------------------------------------------------------------
-// Print configuration
-//
-function {:NAME:}_monitor::start_of_simulation_phase(uvm_phase phase);
-endfunction
 
 `endif
