@@ -43,19 +43,19 @@ class {:NAME:}_monitor extends uvm_monitor;
     endfunction
 
     task run_phase(uvm_phase phase);
-        collect_transactions(); // collector task
+        collect_transactions(phase); // collector task
     endtask: run_phase
 
-    task collect_transactions();
+    task collect_transactions(uvm_phase phase);
         forever begin
-            phase.raise_objection();
+            phase.raise_objection(this);
             bus_to_transaction();
             if (checks_enable)
                 perform_transfer_checks();
             if (coverage_enable)
                 perform_transfer_coverage();
             analysis_port.write(trans_collected);
-            phase.drop_objection();
+            phase.drop_objection(this);
         end
     endtask : collect_transactions
 

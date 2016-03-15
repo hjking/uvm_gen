@@ -13,10 +13,9 @@ class {:NAME:}_driver extends uvm_driver #({:TRANSACTION:});
 
     // Methods
     extern function new (string name="{:NAME:}_driver", uvm_component parent=null);
-    extern function build_phase(uvm_phase phase);
+    extern function void build_phase(uvm_phase phase);
     extern task run_phase (uvm_phase phase);
     extern task drive_item({:TRANSACTION:} item);
-    extern function phase_ended (uvm_phase phase);
 endclass : {:NAME:}_driver
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -32,7 +31,7 @@ endfunction : new
 //------------------------------------------------------------------------------
 // Build
 //
-function {:NAME:}_driver::build_phase(uvm_phase phase);
+function void {:NAME:}_driver::build_phase(uvm_phase phase);
     super.build_phase(phase);
 
     if(!uvm_config_db#(virtual {:NAME:}_if)::get(this, "", "{:NAME:}_vif", vif))
@@ -47,7 +46,7 @@ task {:NAME:}_driver::run_phase(uvm_phase phase);
     forever begin
         // Get the next data item from sequencer
         seq_item_port.get_next_item(req);
-        phase.raise_objection();
+        phase.raise_objection(this);
         // Execute the item
         drive_item(req);
     `ifdef USING_RESPONSE
@@ -60,7 +59,7 @@ task {:NAME:}_driver::run_phase(uvm_phase phase);
         // consume the request
         seq_item_port.item_done();
     `endif
-        phase.drop_objection();
+        phase.drop_objection(this);
     end
 endtask : run_phase
 
@@ -70,11 +69,5 @@ endtask : run_phase
 task {:NAME:}_driver::drive_item({:TRANSACTION:} item);
     // Add your logic here
 endtask : drive_item
-
-//------------------------------------------------------------------------------
-// Jump Back
-//
-function {:NAME:}_driver::phase_ended (uvm_phase phase);
-endfunction
 
 `endif
