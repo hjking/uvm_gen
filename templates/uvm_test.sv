@@ -26,7 +26,7 @@ class {:NAME:} extends {:PARENT:};
     extern function new (string name, uvm_component parent);
     extern function void build_phase (uvm_phase phase);
     extern function void end_of_elaboration_phase (uvm_phase phase);
-    extern task run_phase (uvm_phase phase);
+    extern task main_phase (uvm_phase phase);
     extern function void final_phase (uvm_phase phase);
 endclass: {:NAME:}
 
@@ -52,7 +52,7 @@ function void {:NAME:}::end_of_elaboration_phase (uvm_phase phase);
 endfunction: {:NAME:}::end_of_elaboration_phase
 
 //------------------------------------------------------------------------------
-task {:NAME:}::run_phase (uvm_phase phase);
+task {:NAME:}::main_phase (uvm_phase phase);
     {:VIRTUAL_SEQUENCE:} main_sequence;
     {:if:VIRTUAL_SEQUENCER:}
     {:VIRTUAL_SEQUENCER:} virtual_sequencer = m_env.m_virtual_sequencer;
@@ -65,6 +65,6 @@ task {:NAME:}::run_phase (uvm_phase phase);
     main_sequence.start(null,null,-1,1);
     {:endif:VIRTUAL_SEQUENCER:}
     phase.drop_objection(this);
-endtask: run_phase
+endtask: main_phase
 
 `endif

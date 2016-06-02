@@ -42,9 +42,9 @@ class {:NAME:}_monitor extends uvm_monitor;
             `uvm_fatal("NOVIF", {"virtual interface must be set for: ", get_full_name(), ".vif"});
     endfunction
 
-    task run_phase(uvm_phase phase);
+    task main_phase(uvm_phase phase);
         collect_transactions(phase); // collector task
-    endtask: run_phase
+    endtask: main_phase
 
     task collect_transactions(uvm_phase phase);
         forever begin
