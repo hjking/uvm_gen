@@ -29,7 +29,7 @@ class {:NAME:}_env extends uvm_env;
     //------------------------------------------
     // Agent instance handles
     {:AGENT1:}_agent m_{:AGENT1:}_agent[];
-    {:AGENT2:}_agent s_{:AGENT2:}_agent[];
+    {:AGENT2:}_agent m_{:AGENT2:}_agent[];
 
     // Virtual sequencer
     <VSQR> m_virtual_sequencer;
@@ -84,10 +84,10 @@ function void {:NAME:}_env::build_phase (uvm_phase phase);
         $sformat(inst_name, "m_{:AGENT1:}_agent[%0d]", i);
         m_{:AGENT1:}_agent[i] = {:AGENT1:}_agent::type_id::create(inst_name, this);
     end
-    s_{:AGENT2:}_agent = new[num_slaves];
+    m_{:AGENT2:}_agent = new[num_slaves];
     for(int i = 0; i < num_slaves; i++)begin
-        $sformat(inst_name, "s_{:AGENT2:}_agent[%0d]", i);
-        s_{:AGENT2:}_agent[i] = {:AGENT2:}_agent::type_id::create(inst_name, this);
+        $sformat(inst_name, "m_{:AGENT2:}_agent[%0d]", i);
+        m_{:AGENT2:}_agent[i] = {:AGENT2:}_agent::type_id::create(inst_name, this);
     end
 
     {:if:REG1:}

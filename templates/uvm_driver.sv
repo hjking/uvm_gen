@@ -14,7 +14,7 @@ class {:NAME:}_driver extends uvm_driver #({:TRANSACTION:});
     // Methods
     extern function new (string name="{:NAME:}_driver", uvm_component parent=null);
     extern function void build_phase(uvm_phase phase);
-    extern task main_phase (uvm_phase phase);
+    extern task run_phase (uvm_phase phase);
     extern task drive_item({:TRANSACTION:} item);
 endclass : {:NAME:}_driver
 
@@ -41,7 +41,7 @@ endfunction : build_phase
 //------------------------------------------------------------------------------
 // Get and process items
 //
-task {:NAME:}_driver::main_phase(uvm_phase phase);
+task {:NAME:}_driver::run_phase(uvm_phase phase);
     {:INIT_HARDWARE:}
     forever begin
         // Get the next data item from sequencer
@@ -61,7 +61,7 @@ task {:NAME:}_driver::main_phase(uvm_phase phase);
     `endif
         phase.drop_objection(this);
     end
-endtask : main_phase
+endtask : run_phase
 
 //------------------------------------------------------------------------------
 // Drive sequence item

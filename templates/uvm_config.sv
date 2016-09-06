@@ -1,5 +1,5 @@
-`ifndef {:UPPERNAME:}_CONFIG__
-`define {:UPPERNAME:}_CONFIG__
+`ifndef _{:UPPERNAME:}_CONFIG_
+`define _{:UPPERNAME:}_CONFIG_
 
 // Class Description
 //
@@ -28,12 +28,11 @@ class {:NAME:}_config extends uvm_object;
     // Constraint
     //------------------------------------------
 
-
     //------------------------------------------
     // Methods
     //------------------------------------------
 
-    function new (string name = "{:NAME:}_config");
+    function new(string name = "{:NAME:}_config");
         super.new(name);
     endfunction
 
