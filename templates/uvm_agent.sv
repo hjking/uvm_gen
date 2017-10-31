@@ -1,5 +1,5 @@
-`ifndef {:UPPERNAME:}_AGENT_SV
-`define {:UPPERNAME:}_AGENT_SV
+`ifndef _{:UPPERNAME:}AGENT_SV_
+`define _{:UPPERNAME:}AGENT_SV_
 
 //------------------------------------------------------------------------------
 //
@@ -7,17 +7,17 @@
 //
 //------------------------------------------------------------------------------
 
-class {:NAME:}_agent extends uvm_agent;
+class {:NAME:}Agent extends uvm_agent;
 
     //------------------------------------------
     // Data Members
     //------------------------------------------
-    {:NAME:}_agent_config m_cfg;
+    {:NAME:}AgentConfig mAgtCfg;
     bit coverage_enable = 1;
     bit checks_enable = 1;
     static string MSGID = "/{:COMPANY:}/{:PROJECT:}/{:NAME:}_agent";
 
-    `uvm_component_utils_begin({:NAME:}_agent)
+    `uvm_component_utils_begin({:NAME:}Agent)
         `uvm_field_int(checks_enable, UVM_ALL_ON)
         `uvm_field_int(coverage_enable, UVM_ALL_ON)
     `uvm_component_utils_end
@@ -27,26 +27,26 @@ class {:NAME:}_agent extends uvm_agent;
     //------------------------------------------
     uvm_analysis_port #({:TRANSACTION:}) analysis_port;
 
-    {:NAME:}_sequencer #({:TRANSACTION:})   m_sequencer;
-    {:NAME:}_monitor                        m_monitor;
-    {:NAME:}_driver                         m_driver;
-    {:NAME:}_coverage                       m_coverage;
+    {:NAME:}Sequencer #({:TRANSACTION:})   mSequencer;
+    {:NAME:}Monitor                        mMonitor;
+    {:NAME:}Driver                         mDriver;
+    {:NAME:}Coverage                       mCoverage;
 
     //------------------------------------------
     // Methods
     //------------------------------------------
     // Standard Methods
-    extern function new (string name = "{:NAME:}_agent", uvm_component parent = null);
+    extern function new (string name = "{:NAME:}Agent", uvm_component parent = null);
     extern function void build_phase (uvm_phase phase);
     extern function void connect_phase (uvm_phase phase);
 
-endclass: {:NAME:}_agent
+endclass: {:NAME:}Agent
 
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation
 //------------------------------------------------------------------------------
 // Constructor
-function {:NAME:}_agent::new (string name = "{:NAME:}_agent", uvm_component parent = null);
+function {:NAME:}Agent::new (string name = "{:NAME:}Agent", uvm_component parent = null);
     super.new(name, parent);
 endfunction
 
@@ -54,33 +54,33 @@ endfunction
 // Construct sub-components
 // retrieve and set sub-component configuration
 //
-function void {:NAME:}_agent::build_phase (uvm_phase phase);
+function void {:NAME:}Agent::build_phase (uvm_phase phase);
     super.build_phase(phase);
-    if(!uvm_config_db #({:NAME:}_agent_config)::get(this,"{:NAME:}_agent_config", m_cfg))begin
-        `uvm_error({MSGID,"Failed to get agent's config object: {:NAME:}_agent_config"})
+    if(!uvm_config_db #({:NAME:}AgentConfig)::get(this, "{:NAME:}AgentConfig", mAgtCfg))begin
+        `uvm_error({MSGID,"Failed to get agent's config object: {:NAME:}AgentConfig"})
     end
     // Monitor is always present
-    m_monitor = {:NAME:}_monitor::type_id::create("m_monitor", this);
+    mMonitor = {:NAME:}Monitor::type_id::create("mMonitor", this);
     // Only build the driver and sequencer if active
-    if(m_cfg.is_active == UVM_ACTIVE)begin
-        m_sequencer = {:NAME:}_sequencer#({:TRANSACTION:})::type_id::create("m_sequencer", this);
-        m_driver    = {:NAME:}_driver::type_id::create("m_driver", this);
+    if(mAgtCfg.is_active == UVM_ACTIVE)begin
+        mSequencer = {:NAME:}Sequencer#({:TRANSACTION:})::type_id::create("mSequencer", this);
+        mDriver    = {:NAME:}Driver::type_id::create("mDriver", this);
     end
-    if(m_cfg.has_functional_coverage)begin
-        m_coverage = {:NAME:}_coverage::type_id::create("m_coverage", this);
+    if(mAgtCfg.has_functional_coverage)begin
+        mCoverage = {:NAME:}Coverage::type_id::create("mCoverage", this);
     end
 endfunction: build_phase
 
 //------------------------------------------------------------------------------
 // Connect sub-components
 //
-function void {:NAME:}_agent::connect_phase (uvm_phase phase);
-    m_monitor.{:NAME:}_vif = m_cfg.{:NAME:}_vif;
-    analysis_port = m_monitor.analysis_port;
+function void {:NAME:}Agent::connect_phase (uvm_phase phase);
+    mMonitor.{:NAME:}Vif = mAgtCfg.{:LOWERNAME:}Vif;
+    analysisPort = mMonitor.analysisPort;
     // Only connect the driver and the sequencer if active
-    if(m_cfg.is_active == UVM_ACTIVE)
-        m_driver.seq_item_port.connect(m_sequencer.seq_item_export);
-        m_driver.{:NAME:}_vif = m_cfg.{:NAME:}_vif;
+    if(mAgtCfg.is_active == UVM_ACTIVE)
+        mDriver.seq_item_port.connect(m_sequencer.seq_item_export);
+        mDriver.{:NAME:}Vif = mAgtCfg.{:NAME:}Vif;
     end
     if(m_cfg.has_functional_coverage) begin
         m_monitor.analysis_port.connect(m_coverage.analysis_export);

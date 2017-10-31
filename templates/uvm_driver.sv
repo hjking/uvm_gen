@@ -1,22 +1,23 @@
-`ifndef {:UPPERNAME:}_DRIVER_SV
-`define {:UPPERNAME:}_DRIVER_SV
+`ifndef _{:UPPERNAME:}_DRIVER_SV_
+`define _{:UPPERNAME:}_DRIVER_SV_
 
-class {:NAME:}_driver extends uvm_driver #({:TRANSACTION:});
+class {:NAME:}Driver extends uvm_driver #({:TRANSACTION:});
 
     {:TRANSACTION:} req;
 
-    `uvm_component_utils_begin({:NAME:}_driver)
+    `uvm_component_utils_begin({:NAME:}Driver)
     `uvm_component_utils_end
 
     // Attributes
-    virtual {:NAME:}_if vif;
+    virtual {:NAME:}If vif;
 
     // Methods
-    extern function new (string name="{:NAME:}_driver", uvm_component parent=null);
+    extern function new (string name="{:NAME:}Driver", uvm_component parent=null);
     extern function void build_phase(uvm_phase phase);
     extern task run_phase (uvm_phase phase);
-    extern task drive_item({:TRANSACTION:} item);
-endclass : {:NAME:}_driver
+    extern task driveItem({:TRANSACTION:} item);
+
+endclass : {:NAME:}Driver
 
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation
@@ -24,31 +25,33 @@ endclass : {:NAME:}_driver
 //------------------------------------------------------------------------------
 // Constructor
 //
-function {:NAME:}_driver::new(string name="{:NAME:}_driver", uvm_component parent=null);
+function {:NAME:}Driver::new(string name="{:NAME:}Driver", uvm_component parent=null);
     super.new(name, parent);
 endfunction : new
 
 //------------------------------------------------------------------------------
 // Build
 //
-function void {:NAME:}_driver::build_phase(uvm_phase phase);
+function void {:NAME:}Driver::build_phase(uvm_phase phase);
     super.build_phase(phase);
 
-    if(!uvm_config_db#(virtual {:NAME:}_if)::get(this, "", "{:NAME:}_vif", vif))
-        `uvm_fatal("NOVIF", {"virtual interface must be set for: ", get_full_name(), ".vif"});
+    if (!uvm_config_db#(virtual {:NAME:}If)::get(this, "", "{:NAME:}Vif", this.vif)) begin
+        `uvm_fatal("NOVIF", {"virtual interface must be set for: ", get_full_name(), ".vif"})
+    end
 endfunction : build_phase
 
 //------------------------------------------------------------------------------
 // Get and process items
 //
-task {:NAME:}_driver::run_phase(uvm_phase phase);
+task {:NAME:}Driver::run_phase(uvm_phase phase);
     {:INIT_HARDWARE:}
     forever begin
         // Get the next data item from sequencer
         seq_item_port.get_next_item(req);
         phase.raise_objection(this);
         // Execute the item
-        drive_item(req);
+        this.driveItem(req);
+
     `ifdef USING_RESPONSE
         {:CONSTRUCT_RSP_ITEM:} rsp;
         rsp.set_id_info(req);
@@ -66,8 +69,8 @@ endtask : run_phase
 //------------------------------------------------------------------------------
 // Drive sequence item
 //
-task {:NAME:}_driver::drive_item({:TRANSACTION:} item);
+task {:NAME:}Driver::driveItem({:TRANSACTION:} item);
     // Add your logic here
-endtask : drive_item
+endtask : driveItem
 
 `endif

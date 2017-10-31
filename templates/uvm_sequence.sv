@@ -1,14 +1,15 @@
-`ifndef {:UPPERNAME:}_SEQUENCE_SV
-`define {:UPPERNAME:}_SEQUENCE_SH
+`ifndef _{:UPPERNAME:}_SEQUENCE_SV_
+`define _{:UPPERNAME:}_SEQUENCE_SV_
 
-class {:NAME:}_sequence extends uvm_sequence #({:TRANSACTION:});
-    `uvm_sequence_utils({:NAME:}_sequence)
+class {:NAME:}Sequence extends uvm_sequence #({:TRANSACTION:});
+
+    `uvm_sequence_utils({:NAME:}Sequence)
 
     // Attributes
     /*NONE*/
 
     // Methods
-    extern function new (string name="{:NAME:}_sequence");
+    extern function new (string name="{:NAME:}Sequence");
     //ignore task pre_start();
     //ignore task pre_body(); -- not recommended
     extern task body;
@@ -18,27 +19,34 @@ class {:NAME:}_sequence extends uvm_sequence #({:TRANSACTION:});
     //ignore task mid_do();
     //ignore task post_do();
 
-endclass: {:NAME:}_sequence
+endclass: {:NAME:}Sequence
 
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation
 //------------------------------------------------------------------------------
-function {:NAME:}_sequence::new (string name="{:NAME:}_sequence");
+function {:NAME:}Sequence::new (string name="{:NAME:}Sequence");
     super.new(name);
-endfunction: {:NAME:}_sequence::new
+endfunction
 
-task {:NAME:}_sequence::body;
-    if (starting_phase != null) starting_phase.raise_objection(this,"starting {:NAME:}_sequence");
+task {:NAME:}Sequence::body;
+
+    if (starting_phase != null) begin
+        starting_phase.raise_objection(this,"starting {:NAME:}Sequence");
+    end
 
     //`uvm_do(req)
     req = {:TRANSACTION:}::type_id::create("req");
     start_item(req); // wait for request from driver
+
     if (!req.randomize()) begin // late "just-in-time" randomization
         `uvm_error("body", "randomization failure for req") // an error can be overridden
     end
+
     finish_item(req); // send the data
 
-    if (starting_phase != null) starting_phase.drop_objection(this,"finishing {:NAME:}_sequence");
-endtask: {:NAME:}_sequence::body
+    if (starting_phase != null) begin
+        starting_phase.drop_objection(this,"finishing {:NAME:}_sequence");
+    end
+endtask
 
 `endif

@@ -1,13 +1,13 @@
-`ifndef _{:UPPERNAME:}_CONFIG_
-`define _{:UPPERNAME:}_CONFIG_
+`ifndef _{:UPPERNAME:}CONFIG_SV_
+`define _{:UPPERNAME:}CONFIG_SV_
 
 // Class Description
 //
-class {:NAME:}_config extends uvm_object;
+class {:NAME:}Config extends uvm_object;
 
     // UVM Factory Registration Macro
     //
-    `uvm_object_utils({:NAME:}_config)
+    `uvm_object_utils({:NAME:}Config)
 
     // Virtual Interface
     //
@@ -32,11 +32,11 @@ class {:NAME:}_config extends uvm_object;
     // Methods
     //------------------------------------------
 
-    function new(string name = "{:NAME:}_config");
+    function new(string name = "{:NAME:}Config");
         super.new(name);
     endfunction
 
-endclass:{:NAME:}_config
+endclass:{:NAME:}Config
 
 `endif
 

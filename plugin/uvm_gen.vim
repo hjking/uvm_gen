@@ -153,11 +153,13 @@ function! UVMEnv(name)
     let a:template_filename = "uvm_env.sv"
     let a:template = s:default_template_dir . "/" . a:template_filename
     let a:uppername = toupper(a:name)
+    let a:lowername = tolower(a:name)
 
     call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     call <SID>TExpand("NAME", a:name)
     call <SID>TExpand("UPPERNAME", a:uppername)
+    call <SID>TExpand("LOWERNAME", a:lowername)
     call <SID>TPutCursor()
 endfunction
 
@@ -165,12 +167,13 @@ function! UVMTest(name)
     let a:template_filename = "uvm_test.sv"
     let a:template = s:default_template_dir . "/" . a:template_filename
     let a:uppername = toupper(a:name)
+    let a:lowername = tolower(a:name)
 
     call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     if (a:name == "base")
         " let a:name_temp = "tc_" . a:name
-        let a:name_temp = "tc_base"
+        let a:name_temp = "base_test"
         let a:parent_name = "uvm_test"
     else
         " let a:name_temp = a:name . "_test"
@@ -180,6 +183,7 @@ function! UVMTest(name)
     call <SID>TExpand("NAME", a:name_temp)
     call <SID>TExpand("PARENT", a:parent_name)
     call <SID>TExpand("UPPERNAME", a:uppername)
+    call <SID>TExpand("LOWERNAME", a:lowername)
     call <SID>TPutCursor()
 endfunction
 
@@ -187,11 +191,13 @@ function! UVMAgent(name)
     let a:template_filename = "uvm_agent.sv"
     let a:template = s:default_template_dir . "/" . a:template_filename
     let a:uppername = toupper(a:name)
+    let a:lowername = tolower(a:name)
 
     call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     call <SID>TExpand("NAME", a:name)
     call <SID>TExpand("UPPERNAME", a:uppername)
+    call <SID>TExpand("LOWERNAME", a:lowername)
     call <SID>TPutCursor()
 endfunction
 
@@ -199,11 +205,13 @@ function! UVMDriver(name)
     let a:template_filename = "uvm_driver.sv"
     let a:template = s:default_template_dir . "/" . a:template_filename
     let a:uppername = toupper(a:name)
+    let a:lowername = tolower(a:name)
 
     call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     call <SID>TExpand("NAME", a:name)
     call <SID>TExpand("UPPERNAME", a:uppername)
+    call <SID>TExpand("LOWERNAME", a:lowername)
     call <SID>TPutCursor()
 endfunction
 
@@ -211,11 +219,13 @@ function! UVMMon(name)
     let a:template_filename = "uvm_monitor.sv"
     let a:template = s:default_template_dir . "/" . a:template_filename
     let a:uppername = toupper(a:name)
+    let a:lowername = tolower(a:name)
 
     call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     call <SID>TExpand("NAME", a:name)
     call <SID>TExpand("UPPERNAME", a:uppername)
+    call <SID>TExpand("LOWERNAME", a:lowername)
     call <SID>TPutCursor()
 endfunction
 
@@ -223,11 +233,13 @@ function! UVMSeq(name)
     let a:template_filename = "uvm_sequence.sv"
     let a:template = s:default_template_dir . "/" . a:template_filename
     let a:uppername = toupper(a:name)
+    let a:lowername = tolower(a:name)
 
     call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     call <SID>TExpand("NAME", a:name)
     call <SID>TExpand("UPPERNAME", a:uppername)
+    call <SID>TExpand("LOWERNAME", a:lowername)
     call <SID>TPutCursor()
 endfunction
 
@@ -235,11 +247,13 @@ function! UVMTr(name)
     let a:template_filename = "uvm_transaction.sv"
     let a:template = s:default_template_dir . "/" . a:template_filename
     let a:uppername = toupper(a:name)
+    let a:lowername = tolower(a:name)
 
     call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     call <SID>TExpand("NAME", a:name)
     call <SID>TExpand("UPPERNAME", a:uppername)
+    call <SID>TExpand("LOWERNAME", a:lowername)
     call <SID>TPutCursor()
 endfunction
 
@@ -247,11 +261,13 @@ function! UVMTop(name)
     let a:template_filename = "uvm_test_top.sv"
     let a:template = s:default_template_dir . "/" . a:template_filename
     let a:uppername = toupper(a:name)
+    let a:lowername = tolower(a:name)
 
     call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     call <SID>TExpand("NAME", a:name)
     call <SID>TExpand("UPPERNAME", a:uppername)
+    call <SID>TExpand("LOWERNAME", a:lowername)
     call <SID>TPutCursor()
 endfunction
 
@@ -259,11 +275,13 @@ function! UVMConfig(name)
     let a:template_filename = "uvm_config.sv"
     let a:template = s:default_template_dir . "/" . a:template_filename
     let a:uppername = toupper(a:name)
+    let a:lowername = tolower(a:name)
 
     call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     call <SID>TExpand("NAME", a:name)
     call <SID>TExpand("UPPERNAME", a:uppername)
+    call <SID>TExpand("LOWERNAME", a:lowername)
     call <SID>TPutCursor()
 endfunction
 
