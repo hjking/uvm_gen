@@ -1,8 +1,8 @@
 " Vim Plugin for UVM Code Automactic Generation
 " Language:     Vim
 " Maintainer:   Hong Jin <hon9jin@gmail.com>
-" Version:      0.10
-" Modified:  2013-10-31 08:37
+" Version:      0.20
+" Modified:     2017-11-03 14:37
 " For version 7.x or above
 
 if (exists("g:uvm_plugin_loaded") && g:uvm_plugin_loaded)
@@ -58,7 +58,7 @@ let s:uvm_history_date   = "    Date     : " . strftime ("%Y-%m-%d %H:%M:%S")
 let s:uvm_history_rev    = "    Revision : 1.0"
 
 " List of all types
-let s:type_list = ["agent","config","driver","env","monitor","sequence","test","top","item"]
+let s:type_list = ["agent","config","driver","env","monitor","sequence","test","top","item","interface"]
 
 " normalize the path
 " replace the windows path sep \ with /
@@ -112,7 +112,6 @@ function <SID>TLoadCmd(template)
 
 endfunction
 
-
 "
 "  Look for global variables (if any), to override the defaults.
 "
@@ -155,7 +154,7 @@ function! UVMEnv(name)
     let a:uppername = toupper(a:name)
     let a:lowername = tolower(a:name)
 
-    call s:UVMAddHeader()
+    " call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     call <SID>TExpand("NAME", a:name)
     call <SID>TExpand("UPPERNAME", a:uppername)
@@ -169,7 +168,7 @@ function! UVMTest(name)
     let a:uppername = toupper(a:name)
     let a:lowername = tolower(a:name)
 
-    call s:UVMAddHeader()
+    " call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     if (a:name == "base")
         " let a:name_temp = "tc_" . a:name
@@ -193,7 +192,7 @@ function! UVMAgent(name)
     let a:uppername = toupper(a:name)
     let a:lowername = tolower(a:name)
 
-    call s:UVMAddHeader()
+    " call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     call <SID>TExpand("NAME", a:name)
     call <SID>TExpand("UPPERNAME", a:uppername)
@@ -207,7 +206,7 @@ function! UVMDriver(name)
     let a:uppername = toupper(a:name)
     let a:lowername = tolower(a:name)
 
-    call s:UVMAddHeader()
+    " call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     call <SID>TExpand("NAME", a:name)
     call <SID>TExpand("UPPERNAME", a:uppername)
@@ -221,7 +220,7 @@ function! UVMMon(name)
     let a:uppername = toupper(a:name)
     let a:lowername = tolower(a:name)
 
-    call s:UVMAddHeader()
+    " call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     call <SID>TExpand("NAME", a:name)
     call <SID>TExpand("UPPERNAME", a:uppername)
@@ -235,7 +234,7 @@ function! UVMSeq(name)
     let a:uppername = toupper(a:name)
     let a:lowername = tolower(a:name)
 
-    call s:UVMAddHeader()
+    " call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     call <SID>TExpand("NAME", a:name)
     call <SID>TExpand("UPPERNAME", a:uppername)
@@ -249,7 +248,7 @@ function! UVMTr(name)
     let a:uppername = toupper(a:name)
     let a:lowername = tolower(a:name)
 
-    call s:UVMAddHeader()
+    " call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     call <SID>TExpand("NAME", a:name)
     call <SID>TExpand("UPPERNAME", a:uppername)
@@ -263,7 +262,7 @@ function! UVMTop(name)
     let a:uppername = toupper(a:name)
     let a:lowername = tolower(a:name)
 
-    call s:UVMAddHeader()
+    " call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     call <SID>TExpand("NAME", a:name)
     call <SID>TExpand("UPPERNAME", a:uppername)
@@ -277,7 +276,21 @@ function! UVMConfig(name)
     let a:uppername = toupper(a:name)
     let a:lowername = tolower(a:name)
 
-    call s:UVMAddHeader()
+    " call s:UVMAddHeader()
+    call <SID>TLoadCmd(a:template)
+    call <SID>TExpand("NAME", a:name)
+    call <SID>TExpand("UPPERNAME", a:uppername)
+    call <SID>TExpand("LOWERNAME", a:lowername)
+    call <SID>TPutCursor()
+endfunction
+
+function! UVMInterface(name)
+    let a:template_filename = "uvm_interface.sv"
+    let a:template = s:default_template_dir . "/" . a:template_filename
+    let a:uppername = toupper(a:name)
+    let a:lowername = tolower(a:name)
+
+    " call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     call <SID>TExpand("NAME", a:name)
     call <SID>TExpand("UPPERNAME", a:uppername)
@@ -296,6 +309,8 @@ function UVMGen(type, name)
         call UVMAgent(a:name)
     elseif (a:type== "config")
         call UVMConfig(a:name)
+    elseif (a:type== "interface")
+        call UVMInterface(a:name)
     elseif (a:type== "driver")
         call UVMDriver(a:name)
     elseif (a:type== "env")
@@ -314,6 +329,7 @@ function UVMGen(type, name)
         echo "The first ARG, Please following the instructions:"
         echo " agent            - Generate UVM Agent"
         echo " config           - Generate UVM Config"
+        echo " interface        - Generate UVM Interface"
         echo " driver           - Generate UVM Driver"
         echo " env              - Generate UVM Env"
         echo " monitor / mon    - Generate UVM Monitor"
@@ -341,6 +357,7 @@ command -nargs=1 UVMTr call UVMTr("<args>")
 command -nargs=1 UVMItem call UVMTr("<args>")
 command -nargs=1 UVMTop call UVMTop("<args>")
 command -nargs=1 UVMConfig call UVMConfig("<args>")
+command -nargs=1 UVMInterface call UVMInterface("<args>")
 command -nargs=+ -complete=customlist,ReturnTypesList UVMGen call UVMGen(<f-args>)
 " }}}
 

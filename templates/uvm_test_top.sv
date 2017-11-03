@@ -2,9 +2,6 @@
 
 module {:NAME:}_test_top;
 
-    timeunit 1ns;
-    timeprecision 1ps;
-
     import uvm_pkg::*;
     import {:NAME:}_test_pkg::*;
 
@@ -34,8 +31,10 @@ module {:NAME:}_test_top;
         uvm_config_db #(virtual {:INTERFACE}_if.{:MODPORT:})::set(null, "*", "{:MODPORT:}", {:INTERFACE:}_if1.{:MODPORT:});
         uvm_config_db #(virtual {:INTERFACE1}_if)::set(null, "{:NAME:}_test_top", "{:MODPORT:}", {:INTERFACE1:}_if1);
         uvm_config_db #(virtual {:INTERFACE2}_if)::set(null, "{:NAME:}_test_top", "{:MODPORT:}", {:INTERFACE2:}_if2);
-
-        run_test();
     end
 
+    // run testcase, specify testcase by `+UVM_TESTNAME=testname`
+    initial begin
+        run_test();
+    end
 endmodule: {:NAME:}_test_top

@@ -42,7 +42,7 @@ class {:NAME:}Monitor extends uvm_monitor;
             `uvm_fatal("NOVIF", {"virtual interface must be set for: ", get_full_name(), ".vif"})
         end
 
-    endfunction
+    endfunction : build_phase
 
     task run_phase(uvm_phase phase);
         this.collectTransactions(phase); // collector task
