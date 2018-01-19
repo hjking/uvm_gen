@@ -3,7 +3,25 @@
 
 //------------------------------------------------------------------------------
 //
-// CLASS: {:NAME:}_env
+// CLASS: {:NAME:}Env
+//
+//------------------------------------------------------------------------------
+class {:NAME:}EnvCfg extends uvm_object;
+        // The following two bits are used to control whether checks and coverage are
+    // done both in the bus monitor class and the interface
+    bit intfChecksEnable = 1;
+    bit intfCoverageEnable = 1;
+    bit hasBusMonitor = 1;
+
+    // Control properties
+    int unsigned numMasters = 1;
+    int unsigned numSlaves = 1;
+
+endclass : {:NAME:}EnvCfg
+
+//------------------------------------------------------------------------------
+//
+// CLASS: {:NAME:}Env
 //
 //------------------------------------------------------------------------------
 class {:NAME:}Env extends uvm_env;
@@ -11,18 +29,11 @@ class {:NAME:}Env extends uvm_env;
     // Virtual Interface variable
     protected virtual interface {:NAME:}If vif;
 
+    {:NAME:}EnvCfg mCfg;
+
     //------------------------------------------
     // Data Members
     //------------------------------------------
-    // Control properties
-    protected bit has_bus_monitor = 1;
-    protected int unsigned numMasters = 1;
-    protected int unsigned numSlaves = 1;
-
-    // The following two bits are used to control whether checks and coverage are
-    // done both in the bus monitor class and the interface
-    bit intf_checks_enable = 1;
-    bit intf_coverage_enable = 1;
 
     //------------------------------------------
     // Sub components
@@ -36,11 +47,6 @@ class {:NAME:}Env extends uvm_env;
 
     // UVM Factory Registration Macro
     `uvm_component_utils_begin({:NAME:}Env)
-        `uvm_field_int(has_bus_monitor, UVM_ALL_ON)
-        `uvm_field_int(num_masters, UVM_ALL_ON)
-        `uvm_field_int(num_slaves, UVM_ALL_ON)
-        `uvm_field_int(intf_checks_enable, UVM_ALL_ON)
-        `uvm_field_int(intf_coverage_enable, UVM_ALL_ON)
     `uvm_component_utils_end
 
     {:if:REG1:}
@@ -56,7 +62,7 @@ class {:NAME:}Env extends uvm_env;
     extern function void build_phase (uvm_phase _phase);
     extern function void connect_phase (uvm_phase phase);
 
-endclass :{:NAME:}Env
+endclass : {:NAME:}Env
 
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation
@@ -67,27 +73,30 @@ endfunction: new
 
 //------------------------------------------------------------------------------
 function void {:NAME:}Env::end_of_elaboration_phase (uvm_phase phase);
-    super.build(phase);
+    super.end_of_elaboration_phase(phase);
 endfunction
 
 //------------------------------------------------------------------------------
 function void {:NAME:}Env::build_phase (uvm_phase phase);
 
     string instName;
-    super.build(phase);
+    // super.build(phase);
 
     // Configure
+    if(!uvm_config_db #({:NAME:}EnvCfg)::get(this, "", "mEnvCfg", mCfg)) begin
+        `uvm_error("build_phase", "Unable to find mCfg in uvm_config_db")
+    end
 
     // Create
-    m{:AGENT1:} = new[numMasters];
-    for (int i = 0; i < numMasters; i++) begin
+    m{:AGENT1:} = new[mCfg.numMasters];
+    for (int i = 0; i < mCfg.numMasters; i++) begin
         $sformat(instName, "m{:AGENT1:}[%0d]", i);
         m{:AGENT1:}[i] = {:AGENT1:}::type_id::create(instName, this);
     end
 
-    m{:AGENT2:} = new[numSlaves];
-    for (int i = 0; i < numSlaves; i++) begin
-        $sformat(instName, "m_{:AGENT2:}[%0d]", i);
+    m{:AGENT2:} = new[mCfg.numSlaves];
+    for (int i = 0; i < mCfg.numSlaves; i++) begin
+        $sformat(instName, "m{:AGENT2:}[%0d]", i);
         m{:AGENT2:}[i] = {:AGENT2:}::type_id::create(instName, this);
     end
 
@@ -96,6 +105,8 @@ function void {:NAME:}Env::build_phase (uvm_phase phase);
     m{:REG1:}Model = {:REG1:}RegModel::type_id::create("m{:REG1:}RegModel", this);
     m{:REG1:}Model.build();
     {:endif:REG1:}
+
+    `uvm_info("build_phase", $sformatf("%s built", get_full_name()))
 
 endfunction
 
