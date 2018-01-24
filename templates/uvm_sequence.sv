@@ -10,14 +10,8 @@ class {:NAME:}Sequence extends uvm_sequence #({:TRANSACTION:});
 
     // Methods
     extern function new (string name="{:NAME:}Sequence");
-    //ignore task pre_start();
-    //ignore task pre_body(); -- not recommended
+
     extern task body;
-    //ignore task post_body(); -- not recommended
-    //ignore task post_start();
-    //ignore task pre_do();
-    //ignore task mid_do();
-    //ignore task post_do();
 
 endclass: {:NAME:}Sequence
 
@@ -30,12 +24,11 @@ endfunction
 
 task {:NAME:}Sequence::body;
 
-    if (starting_phase != null) begin
-        starting_phase.raise_objection(this,"starting {:NAME:}Sequence");
-    end
-
     //`uvm_do(req)
-    req = {:TRANSACTION:}::type_id::create("req");
+    {:TRANSACTION:} orig_req = {:TRANSACTION:}::type_id::create("orig_req");
+    {:TRANSACTION:} req;
+
+    $cast(req, orig_req.clone());
     start_item(req); // wait for request from driver
 
     if (!req.randomize()) begin // late "just-in-time" randomization
@@ -44,9 +37,8 @@ task {:NAME:}Sequence::body;
 
     finish_item(req); // send the data
 
-    if (starting_phase != null) begin
-        starting_phase.drop_objection(this,"finishing {:NAME:}_sequence");
-    end
+    `uvm_info("SEQ", req.convert2string(), UVM_DEBUG)
+
 endtask
 
 `endif
