@@ -4,31 +4,30 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Class Description
 ////////////////////////////////////////////////////////////////////////////////
-class {:NAME:}Cfg extends uvm_object;
+class {:NAME:}DriverConfig extends uvm_object;
 
     // UVM Factory Registration Macro
     //
-    `uvm_object_utils({:NAME:}Cfg)
+    `uvm_object_utils_begin({:NAME:}DriverConfig)
+        `uvm_field_int(hasCoverage, UVM_ALL_ON)
+    `uvm_object_utils_end
 
     //------------------------------------------
     // Data Members
     //------------------------------------------
 
     // include the functional coverage or not
-    bit has_functional_coverage = 0;
-
-    // include the scoreboard or not
-    bit has_scoreboard = 0;
+    bit hasCoverage = 0;
 
     //------------------------------------------
     // Methods
     //------------------------------------------
 
-    function new(string name = "{:NAME:}Cfg");
+    function new(string name = "{:NAME:}DriverConfig");
         super.new(name);
     endfunction
 
-endclass:{:NAME:}Cfg
+endclass:{:NAME:}DriverConfig
 
 ////////////////////////////////////////////////////////////////////////////////
 // Class Description
@@ -36,7 +35,8 @@ endclass:{:NAME:}Cfg
 class {:NAME:}Driver extends uvm_driver #({:TRANSACTION:});
 
     {:TRANSACTION:} req;
-    {:NAME:}Cfg  mCfg;
+    {:NAME:}DriverConfig  cfg;
+    string                tID;
 
     `uvm_component_utils_begin({:NAME:}Driver)
     `uvm_component_utils_end
@@ -54,13 +54,14 @@ endclass : {:NAME:}Driver
 
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation
-//
+
 //------------------------------------------------------------------------------
-// Constructor
-//
+// Function: new
+// Creates a new driver
 function {:NAME:}Driver::new(string name="{:NAME:}Driver", uvm_component parent=null);
     super.new(name, parent);
-    this.mCfg = new();
+    this.cfg = new();
+    this.tID = get_type_name().toupper();
 endfunction : new
 
 //------------------------------------------------------------------------------
@@ -68,11 +69,14 @@ endfunction : new
 //
 function void {:NAME:}Driver::build_phase(uvm_phase phase);
     super.build_phase(phase);
+    `uvm_info(tID, $sformatf("build_phase begin ..."), UVM_HIGH)
 
-    if (!(uvm_config_db #({:NAME:}Cfg)::get(this, "", "mCfg", mCfg))) begin
-        `uvm_fatal("CONFIG_LOAD", {get_full_name(), ".mCfg get failed!!!"})
+    // Get configuration from uvm_config_db
+    if (!(uvm_config_db #({:NAME:}DriverConfig)::get(this, "", "mCfg", cfg))) begin
+        `uvm_fatal("CONFIG_LOAD", {get_full_name(), ".cfg get failed!!!"})
     end
 
+    // Get virtual interface from uvm_config_db
     if (!uvm_config_db#(virtual {:NAME:}If)::get(this, "", "{:NAME:}Vif", this.vif)) begin
         `uvm_fatal("NOVIF", {"virtual interface must be set for: ", get_full_name(), ".vif"})
     end
@@ -111,4 +115,4 @@ task {:NAME:}Driver::DriveItem({:TRANSACTION:} item);
     // Add your logic here
 endtask : DriveItem
 
-`endif
+`endif // _{:UPPERNAME:}_DRIVER_SV_

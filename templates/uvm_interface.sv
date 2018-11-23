@@ -1,18 +1,21 @@
 `ifndef _{:UPPERNAME:}_INTERFACE_SV_
 `define _{:UPPERNAME:}_INTERFACE_SV_
 
-interface {:Name:} (bit clk, bit rstN);
+interface {:Name:} ();
 
-    task write ();
+    logic clk;
+    logic rstN;
+
+    task Write ();
         @(posedge clk);
     endtask
 
-    task read ();
+    task Read ();
         @(posedge clk);
     endtask
 
     // delay some clock cycle
-    task delay (int cycle = 1);
+    task Delay (int cycle = 1);
         repeat(cycle)@(posedge clk);
     endtask
 endinterface

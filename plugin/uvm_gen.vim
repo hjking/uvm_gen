@@ -205,12 +205,14 @@ function! UVMDriver(name)
     let a:template = s:default_template_dir . "/" . a:template_filename
     let a:uppername = toupper(a:name)
     let a:lowername = tolower(a:name)
+    let a:transaction = a:name . "Trans"
 
     " call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     call <SID>TExpand("NAME", a:name)
     call <SID>TExpand("UPPERNAME", a:uppername)
     call <SID>TExpand("LOWERNAME", a:lowername)
+    call <SID>TExpand("TRANSACTION", a:transaction)
     call <SID>TPutCursor()
 endfunction
 
@@ -219,12 +221,14 @@ function! UVMMon(name)
     let a:template = s:default_template_dir . "/" . a:template_filename
     let a:uppername = toupper(a:name)
     let a:lowername = tolower(a:name)
+    let a:transaction = a:name . "Trans"
 
     " call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     call <SID>TExpand("NAME", a:name)
     call <SID>TExpand("UPPERNAME", a:uppername)
     call <SID>TExpand("LOWERNAME", a:lowername)
+    call <SID>TExpand("TRANSACTION", a:transaction)
     call <SID>TPutCursor()
 endfunction
 
@@ -233,12 +237,14 @@ function! UVMSeq(name)
     let a:template = s:default_template_dir . "/" . a:template_filename
     let a:uppername = toupper(a:name)
     let a:lowername = tolower(a:name)
+    let a:transaction = a:name . "Trans"
 
     " call s:UVMAddHeader()
     call <SID>TLoadCmd(a:template)
     call <SID>TExpand("NAME", a:name)
     call <SID>TExpand("UPPERNAME", a:uppername)
     call <SID>TExpand("LOWERNAME", a:lowername)
+    call <SID>TExpand("TRANSACTION", a:transaction)
     call <SID>TPutCursor()
 endfunction
 
