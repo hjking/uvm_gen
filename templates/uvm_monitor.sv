@@ -59,7 +59,7 @@ class {:NAME:}Monitor extends uvm_monitor;
     ////////////////////////////////////////////////////////////////////////////////
     // Implementation
     //------------------------------------------------------------------------------
-    function new(string name="{:LOWERNAME:}Monitor", uvm_component parent=null);
+    function new(string name="{:NAME:}Monitor", uvm_component parent=null);
         super.new(name, parent);
         this.covTrans = new();
         this.covTrans.set_inst_name({get_full_name(), ".covTrans"});
